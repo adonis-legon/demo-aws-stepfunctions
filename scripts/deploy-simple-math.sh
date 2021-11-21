@@ -1,0 +1,1 @@
+. deploy.sh simple-math simple_math_func

@@ -1,0 +1,1 @@
+. deploy.sh sub-numbers sub_numbers_func

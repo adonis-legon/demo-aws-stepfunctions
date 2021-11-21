@@ -1,0 +1,39 @@
+{
+  "Comment": "Simple Math Step Functions",
+  "StartAt": "Sum",
+  "States": {
+    "Sum": {
+	  "Comment": "Simple Sum function",
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:sum-numbers:$LATEST",
+        "Payload.$": "$"
+      },
+      "OutputPath": "$.Payload",
+      "Next": "Sub"
+    },
+    "Sub": {
+	  "Comment": "Simple Substraction function",
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:sub-numbers"
+      },
+      "Next": "Div"
+    },
+    "Div": {
+	  "Comment": "Simple Devide function",
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:div-numbers"
+      },
+      "End": true
+    }
+  }
+}
