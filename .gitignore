@@ -2,4 +2,6 @@
 .vscode
 __pycache__
 *.pyc
+
 deploy-simple-math-wf.sh
+simple-math.asl.json

@@ -7,7 +7,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
-        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:sum-numbers:$LATEST",
+        "FunctionName": "$SUM_FUNCTION_ARN",
         "Payload.$": "$"
       },
       "OutputPath": "$.Payload",
@@ -20,7 +20,7 @@
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:sub-numbers"
+        "FunctionName": "$SUB_FUNCTION_ARN"
       },
       "Next": "Div"
     },
@@ -31,7 +31,7 @@
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:sa-east-1:342542966819:function:div-numbers"
+        "FunctionName": "$DIV_FUNCTION_ARN"
       },
       "End": true
     }
