@@ -1,12 +1,14 @@
 import json
 import boto3
 import os
+import uuid
 
 
 def lambda_handler(event, context):
     response_code = 200
     body = {
-        'message': ''
+        'message': '',
+        'wf_id': ''
     }
 
     if not event['body']:
@@ -25,22 +27,25 @@ def lambda_handler(event, context):
             else:
                 wf_client = boto3.client('stepfunctions')
 
+            wf_id = uuid.uuid4().__str__()
             if event['headers'] and 'x-simplemath-async' in event['headers'].keys() \
                 and event['headers']['x-simplemath-async'].lower() == 'true':
+
                 wf_response = wf_client.start_execution(
                     stateMachineArn=os.environ['WF_ARN'],
-                    name=os.environ['WF_NAME'],
+                    name=wf_id,
                     input=event['body']
                 )
             else:
                 wf_response = wf_client.start_sync_execution(
                     stateMachineArn=os.environ['WF_ARN'],
-                    name=os.environ['WF_NAME'],
+                    name=wf_id,
                     input=event['body']
                 )
                 body['result'] = json.loads(wf_response['output'])['result']
 
             body['message'] = 'Success'
+            body['wf_id'] = wf_id
         except Exception as ex:
             response_code = 500
             body['message'] = 'Error invoking Workflow. Message: ' + ex.__str__()
